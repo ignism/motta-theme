@@ -1,49 +1,50 @@
 <?php
 /**
- * The header for our theme
- *
- * This is the template that displays all of the <head> section and everything up until <div id="content">
- *
- * @link https://developer.wordpress.org/themes/basics/template-files/#template-partials
- *
- * @package Motta
- */
+* The header for our theme
+*
+* This is the template that displays all of the <head> section and everything up until <div id="content">
+*
+* @link https://developer.wordpress.org/themes/basics/template-files/#template-partials
+*
+* @package Motta
+*/
 
 ?><!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
-<meta charset="<?php bloginfo( 'charset' ); ?>">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="profile" href="http://gmpg.org/xfn/11">
+	<meta charset="<?php bloginfo( 'charset' ); ?>">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="profile" href="http://gmpg.org/xfn/11">
 
-<?php wp_head(); ?>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css">
+
+	<?php wp_head(); ?>
 </head>
 
 <body <?php body_class(); ?>>
-<div id="page" class="site">
-	<a class="skip-link screen-reader-text" href="#content"><?php esc_html_e( 'Skip to content', 'motta' ); ?></a>
+	<div id="page" class="site">
 
-	<header id="masthead" class="site-header" role="banner">
-		<div class="site-branding">
-			<?php
-			if ( is_front_page() && is_home() ) : ?>
+		<header id="masthead" class="site-header">
+			<div class="site-branding">
 				<h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
-			<?php else : ?>
-				<p class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></p>
-			<?php
-			endif;
+			</div><!-- .site-branding -->
 
-			$description = get_bloginfo( 'description', 'display' );
-			if ( $description || is_customize_preview() ) : ?>
-				<p class="site-description"><?php echo $description; /* WPCS: xss ok. */ ?></p>
-			<?php
-			endif; ?>
-		</div><!-- .site-branding -->
+			<nav id="site-navigation" class="main-navigation" role="navigation">
+				<?php
+				$menu_items = wp_get_nav_menu_items('menu');
+				$menu_list = '<ul>';
 
-		<nav id="site-navigation" class="main-navigation" role="navigation">
-			<button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false"><?php esc_html_e( 'Primary Menu', 'motta' ); ?></button>
-			<?php wp_nav_menu( array( 'theme_location' => 'menu-1', 'menu_id' => 'primary-menu' ) ); ?>
-		</nav><!-- #site-navigation -->
-	</header><!-- #masthead -->
+				foreach ($menu_items as $menu_item) {
+					$title = $menu_item->title;
+					$url = $menu_item->url;
+					$menu_list .= '<li><a href="' . $url . '">' . $title . '</a></li>';
+				}
 
-	<div id="content" class="site-content">
+				$menu_list .= '</ul>';
+
+				echo $menu_list;
+				?>
+			</nav><!-- #site-navigation -->
+		</header><!-- #masthead -->
+
+		<div id="content" class="site-content">

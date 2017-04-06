@@ -75,10 +75,10 @@ add_action( 'admin_menu' , 'remove_book_fields' );
 add_action( 'pre_get_posts', 'add_my_post_types_to_query' );
 
 function add_my_post_types_to_query( $query ) {
-	$myPostTypes = array( 'post', 'book' );
+	$my_post_types = array( 'post', 'book' );
 
   if ( is_home() && $query->is_main_query() )
-    $query->set( 'post_type', $myPostTypes );
+    $query->set( 'post_type', $my_post_types );
   return $query;
 }
 
