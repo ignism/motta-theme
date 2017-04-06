@@ -144,4 +144,15 @@ require get_template_directory() . '/inc/jetpack.php';
 
 /*----------------------------------------------------------------------------*/
 
+// Custom Post types
 require get_template_directory() . '/inc/post-types.php';
+
+// Remove clutter meta_boxes
+function remove_page_fields() {
+    remove_meta_box( 'authordiv' , 'page' , 'normal' );
+		remove_meta_box( 'commentstatusdiv' , 'page' , 'normal' );
+		remove_meta_box( 'commentsdiv' , 'page' , 'normal' );
+		remove_meta_box( 'postcustom' , 'page' , 'normal' );
+		remove_meta_box( 'slugdiv' , 'page' , 'normal' );
+}
+add_action( 'admin_menu' , 'remove_page_fields' );
