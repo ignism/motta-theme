@@ -1,85 +1,230 @@
 <?php
 
 // Register Custom Post Type
-function books_post_type() {
-
-	$labels = array(
-		'name'                  => _x( 'Books', 'Post Type General Name', 'text_domain' ),
-		'singular_name'         => _x( 'Book', 'Post Type Singular Name', 'text_domain' ),
-		'menu_name'             => __( 'Books', 'text_domain' ),
-		'name_admin_bar'        => __( 'Book', 'text_domain' ),
-		'archives'              => __( 'Item Archives', 'text_domain' ),
-		'attributes'            => __( 'Item Attributes', 'text_domain' ),
-		'parent_item_colon'     => __( 'Parent Book:', 'text_domain' ),
-		'all_items'             => __( 'All Books', 'text_domain' ),
-		'add_new_item'          => __( 'Add New Book', 'text_domain' ),
-		'add_new'               => __( 'New Book', 'text_domain' ),
-		'new_item'              => __( 'New Item', 'text_domain' ),
-		'edit_item'             => __( 'Edit Book', 'text_domain' ),
-		'update_item'           => __( 'Update Book', 'text_domain' ),
-		'view_item'             => __( 'View Book', 'text_domain' ),
-		'view_items'            => __( 'View Items', 'text_domain' ),
-		'search_items'          => __( 'Search books', 'text_domain' ),
-		'not_found'             => __( 'No books found', 'text_domain' ),
-		'not_found_in_trash'    => __( 'No books found in Trash', 'text_domain' ),
-		'featured_image'        => __( 'Featured Image', 'text_domain' ),
-		'set_featured_image'    => __( 'Set featured image', 'text_domain' ),
-		'remove_featured_image' => __( 'Remove featured image', 'text_domain' ),
-		'use_featured_image'    => __( 'Use as featured image', 'text_domain' ),
-		'insert_into_item'      => __( 'Insert into item', 'text_domain' ),
-		'uploaded_to_this_item' => __( 'Uploaded to this item', 'text_domain' ),
-		'items_list'            => __( 'Items list', 'text_domain' ),
-		'items_list_navigation' => __( 'Items list navigation', 'text_domain' ),
-		'filter_items_list'     => __( 'Filter items list', 'text_domain' ),
-	);
-	$args = array(
-		'label'                 => __( 'Book', 'text_domain' ),
-		'description'           => __( 'Book information pages.', 'text_domain' ),
-		'labels'                => $labels,
-		'supports'              => array( 'title', 'editor', 'excerpt', 'author', 'thumbnail', 'comments', 'custom-fields', ),
-		'taxonomies'            => array( 'category', 'post_tag' ),
-		'hierarchical'          => false,
-		'public'                => true,
-		'show_ui'               => true,
-		'show_in_menu'          => true,
-		'menu_position'         => 5,
-		'show_in_admin_bar'     => true,
-		'show_in_nav_menus'     => true,
-		'can_export'            => true,
-		'has_archive'           => true,
-		'exclude_from_search'   => false,
-		'publicly_queryable'    => true,
-		'capability_type'       => 'page',
-	);
-	register_post_type( 'book', $args );
-
+function book_post_type()
+{
+    $labels = array(
+        'name'                  => _x('Books', 'Post Type General Name', 'text_domain'),
+        'singular_name'         => _x('Book', 'Post Type Singular Name', 'text_domain'),
+        'menu_name'             => __('Books', 'text_domain'),
+        'name_admin_bar'        => __('Book', 'text_domain'),
+        'archives'              => __('Item Archives', 'text_domain'),
+        'attributes'            => __('Item Attributes', 'text_domain'),
+        'parent_item_colon'     => __('Parent Book:', 'text_domain'),
+        'all_items'             => __('All Books', 'text_domain'),
+        'add_new_item'          => __('Add New Book', 'text_domain'),
+        'add_new'               => __('New Book', 'text_domain'),
+        'new_item'              => __('New Item', 'text_domain'),
+        'edit_item'             => __('Edit Book', 'text_domain'),
+        'update_item'           => __('Update Book', 'text_domain'),
+        'view_item'             => __('View Book', 'text_domain'),
+        'view_items'            => __('View Items', 'text_domain'),
+        'search_items'          => __('Search books', 'text_domain'),
+        'not_found'             => __('No books found', 'text_domain'),
+        'not_found_in_trash'    => __('No books found in Trash', 'text_domain'),
+        'featured_image'        => __('Featured Image', 'text_domain'),
+        'set_featured_image'    => __('Set featured image', 'text_domain'),
+        'remove_featured_image' => __('Remove featured image', 'text_domain'),
+        'use_featured_image'    => __('Use as featured image', 'text_domain'),
+        'insert_into_item'      => __('Insert into item', 'text_domain'),
+        'uploaded_to_this_item' => __('Uploaded to this item', 'text_domain'),
+        'items_list'            => __('Items list', 'text_domain'),
+        'items_list_navigation' => __('Items list navigation', 'text_domain'),
+        'filter_items_list'     => __('Filter items list', 'text_domain'),
+    );
+    $args = array(
+        'label'                 => __('Book', 'text_domain'),
+        'description'           => __('Book information pages.', 'text_domain'),
+        'labels'                => $labels,
+        'supports'              => array( 'title', 'editor', 'excerpt', 'author', 'thumbnail', 'comments', 'custom-fields', ),
+        'taxonomies'            => array( 'category', 'post_tag' ),
+        'hierarchical'          => false,
+        'public'                => true,
+        'show_ui'               => true,
+        'show_in_menu'          => true,
+        'menu_position'         => 5,
+        'show_in_admin_bar'     => true,
+        'show_in_nav_menus'     => true,
+        'can_export'            => true,
+        'has_archive'           => true,
+        'exclude_from_search'   => false,
+        'publicly_queryable'    => true,
+        'capability_type'       => 'page',
+    );
+    register_post_type('book', $args);
 }
-add_action( 'init', 'books_post_type', 0 );
+add_action('init', 'book_post_type', 0);
 
 /**
  * Remove meta box fields
  */
-function remove_book_fields() {
-    remove_meta_box( 'authordiv' , 'book' , 'normal' );
-		remove_meta_box( 'commentstatusdiv' , 'book' , 'normal' );
-		remove_meta_box( 'commentsdiv' , 'book' , 'normal' );
-		remove_meta_box( 'postcustom' , 'book' , 'normal' );
-		remove_meta_box( 'slugdiv' , 'book' , 'normal' );
+function remove_book_fields()
+{
+    remove_meta_box('authordiv', 'book', 'normal');
+    remove_meta_box('commentstatusdiv', 'book', 'normal');
+    remove_meta_box('commentsdiv', 'book', 'normal');
+    remove_meta_box('postcustom', 'book', 'normal');
+    remove_meta_box('slugdiv', 'book', 'normal');
+    remove_meta_box('postexcerpt', 'book', 'normal');
 }
-add_action( 'admin_menu' , 'remove_book_fields' );
+add_action('admin_menu', 'remove_book_fields');
 
+function remove_book_featured_image()
+{
+    remove_meta_box('postimagediv', 'book', 'side');
+}
+add_action('do_meta_boxes', 'remove_book_featured_image');
+
+// Register Custom Post Type
+function sticky_post_type()
+{
+    $labels = array(
+        'name'                  => _x('Stickies', 'Post Type General Name', 'text_domain'),
+        'singular_name'         => _x('Sticky', 'Post Type Singular Name', 'text_domain'),
+        'menu_name'             => __('Stickies', 'text_domain'),
+        'name_admin_bar'        => __('Sticky', 'text_domain'),
+        'archives'              => __('Item Archives', 'text_domain'),
+        'attributes'            => __('Item Attributes', 'text_domain'),
+        'parent_item_colon'     => __('Parent Sticky:', 'text_domain'),
+        'all_items'             => __('All Stickies', 'text_domain'),
+        'add_new_item'          => __('Add New Sticky', 'text_domain'),
+        'add_new'               => __('New Sticky', 'text_domain'),
+        'new_item'              => __('New Item', 'text_domain'),
+        'edit_item'             => __('Edit Sticky', 'text_domain'),
+        'update_item'           => __('Update Sticky', 'text_domain'),
+        'view_item'             => __('View Sticky', 'text_domain'),
+        'view_items'            => __('View Items', 'text_domain'),
+        'search_items'          => __('Search stickies', 'text_domain'),
+        'not_found'             => __('No stickies found', 'text_domain'),
+        'not_found_in_trash'    => __('No stickies found in Trash', 'text_domain'),
+        'featured_image'        => __('Featured Image', 'text_domain'),
+        'set_featured_image'    => __('Set featured image', 'text_domain'),
+        'remove_featured_image' => __('Remove featured image', 'text_domain'),
+        'use_featured_image'    => __('Use as featured image', 'text_domain'),
+        'insert_into_item'      => __('Insert into item', 'text_domain'),
+        'uploaded_to_this_item' => __('Uploaded to this item', 'text_domain'),
+        'items_list'            => __('Items list', 'text_domain'),
+        'items_list_navigation' => __('Items list navigation', 'text_domain'),
+        'filter_items_list'     => __('Filter items list', 'text_domain'),
+    );
+    $args = array(
+        'label'                 => __('Sticky', 'text_domain'),
+        'description'           => __('Sticky information pages.', 'text_domain'),
+        'labels'                => $labels,
+        'supports'              => array( 'title', 'editor', 'excerpt', 'author', 'thumbnail', 'comments', 'custom-fields', ),
+        'taxonomies'            => array( 'category', 'post_tag' ),
+        'hierarchical'          => false,
+        'public'                => true,
+        'show_ui'               => true,
+        'show_in_menu'          => true,
+        'menu_position'         => 5,
+        'show_in_admin_bar'     => true,
+        'show_in_nav_menus'     => true,
+        'can_export'            => true,
+        'has_archive'           => true,
+        'exclude_from_search'   => false,
+        'publicly_queryable'    => true,
+        'capability_type'       => 'page',
+    );
+    register_post_type('sticky', $args);
+    remove_post_type_support('sticky', 'editor');
+}
+add_action('init', 'sticky_post_type', 0);
 
 /**
- * Show posts of 'post', 'books' post types on home page
+ * Remove meta box fields
  */
-add_action( 'pre_get_posts', 'add_my_post_types_to_query' );
-
-function add_my_post_types_to_query( $query ) {
-	$my_post_types = array( 'post', 'book' );
-
-  if ( is_home() && $query->is_main_query() )
-    $query->set( 'post_type', $my_post_types );
-  return $query;
+function remove_sticky_fields()
+{
+    remove_meta_box('authordiv', 'sticky', 'normal');
+    remove_meta_box('commentstatusdiv', 'sticky', 'normal');
+    remove_meta_box('commentsdiv', 'sticky', 'normal');
+    remove_meta_box('postcustom', 'sticky', 'normal');
+    remove_meta_box('slugdiv', 'sticky', 'normal');
+    remove_meta_box('postexcerpt', 'sticky', 'normal');
+    remove_meta_box('categorydiv', 'sticky', 'normal');
+    remove_meta_box('tagsdiv-post_tag', 'sticky', 'normal');
 }
+add_action('admin_menu', 'remove_sticky_fields');
 
-?>
+function remove_sticky_featured_image()
+{
+    remove_meta_box('postimagediv', 'sticky', 'side');
+}
+add_action('do_meta_boxes', 'remove_sticky_featured_image');
+
+
+// Register Custom Post Type
+function topic_post_type()
+{
+    $labels = array(
+        'name'                  => _x('Topics', 'Post Type General Name', 'text_domain'),
+        'singular_name'         => _x('Topic', 'Post Type Singular Name', 'text_domain'),
+        'menu_name'             => __('Topics', 'text_domain'),
+        'name_admin_bar'        => __('Topic', 'text_domain'),
+        'archives'              => __('Item Archives', 'text_domain'),
+        'attributes'            => __('Item Attributes', 'text_domain'),
+        'parent_item_colon'     => __('Parent Topic:', 'text_domain'),
+        'all_items'             => __('All Topics', 'text_domain'),
+        'add_new_item'          => __('Add New Topic', 'text_domain'),
+        'add_new'               => __('New Topic', 'text_domain'),
+        'new_item'              => __('New Item', 'text_domain'),
+        'edit_item'             => __('Edit Topic', 'text_domain'),
+        'update_item'           => __('Update Topic', 'text_domain'),
+        'view_item'             => __('View Topic', 'text_domain'),
+        'view_items'            => __('View Items', 'text_domain'),
+        'search_items'          => __('Search topics', 'text_domain'),
+        'not_found'             => __('No topics found', 'text_domain'),
+        'not_found_in_trash'    => __('No topics found in Trash', 'text_domain'),
+        'featured_image'        => __('Featured Image', 'text_domain'),
+        'set_featured_image'    => __('Set featured image', 'text_domain'),
+        'remove_featured_image' => __('Remove featured image', 'text_domain'),
+        'use_featured_image'    => __('Use as featured image', 'text_domain'),
+        'insert_into_item'      => __('Insert into item', 'text_domain'),
+        'uploaded_to_this_item' => __('Uploaded to this item', 'text_domain'),
+        'items_list'            => __('Items list', 'text_domain'),
+        'items_list_navigation' => __('Items list navigation', 'text_domain'),
+        'filter_items_list'     => __('Filter items list', 'text_domain'),
+    );
+    $args = array(
+        'label'                 => __('Topic', 'text_domain'),
+        'description'           => __('Topic information pages.', 'text_domain'),
+        'labels'                => $labels,
+        'supports'              => array( 'title', 'editor', 'excerpt', 'author', 'thumbnail', 'comments', 'custom-fields', ),
+        'taxonomies'            => array( 'category', 'post_tag' ),
+        'hierarchical'          => false,
+        'public'                => true,
+        'show_ui'               => true,
+        'show_in_menu'          => true,
+        'menu_position'         => 5,
+        'show_in_admin_bar'     => true,
+        'show_in_nav_menus'     => true,
+        'can_export'            => true,
+        'has_archive'           => true,
+        'exclude_from_search'   => false,
+        'publicly_queryable'    => true,
+        'capability_type'       => 'page',
+    );
+    register_post_type('topic', $args);
+}
+add_action('init', 'topic_post_type', 0);
+
+/**
+ * Remove meta box fields
+ */
+function remove_topic_fields()
+{
+    remove_meta_box('authordiv', 'topic', 'normal');
+    remove_meta_box('commentstatusdiv', 'topic', 'normal');
+    remove_meta_box('commentsdiv', 'topic', 'normal');
+    remove_meta_box('postcustom', 'topic', 'normal');
+    remove_meta_box('slugdiv', 'topic', 'normal');
+    remove_meta_box('postexcerpt', 'topic', 'normal');
+}
+add_action('admin_menu', 'remove_topic_fields');
+
+function remove_topic_featured_image()
+{
+    remove_meta_box('postimagediv', 'topic', 'side');
+}
+add_action('do_meta_boxes', 'remove_topic_featured_image');

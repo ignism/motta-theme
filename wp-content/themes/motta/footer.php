@@ -15,14 +15,26 @@
 
 	<footer id="colophon" class="site-footer" role="contentinfo">
 		<div class="site-info">
-			<a href="<?php echo esc_url( __( 'https://wordpress.org/', 'motta' ) ); ?>"><?php printf( esc_html__( 'Proudly powered by %s', 'motta' ), 'WordPress' ); ?></a>
-			<span class="sep"> | </span>
-			<?php printf( esc_html__( 'Theme: %1$s by %2$s.', 'motta' ), 'motta', '<a href="https://automattic.com/" rel="designer">Mark Brand</a>' ); ?>
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-xs-10 col-xs-offset-1">
+						<a class="colophon-toggle">colophon</a>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-1">
+						&nbsp;
+					</div>
+					<?php dynamic_sidebar('footer'); ?>
+				</div>
+			</div>
 		</div><!-- .site-info -->
 	</footer><!-- #colophon -->
 </div><!-- #page -->
 
 <?php wp_footer(); ?>
+<script src="<?php echo get_template_directory_uri(); ?>/dist/commons.js" charset="utf-8"></script>
+<script src="<?php echo get_template_directory_uri();  ?>/dist/app.bundle.js" charset="utf-8"></script>
 
 </body>
 </html>
