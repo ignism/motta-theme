@@ -98,8 +98,8 @@ function motta_widgets_init()
     'description'   => esc_html__('Add widgets here.', 'motta'),
     'before_widget' => '<div class="widget %2$s col-xs-3">',
     'after_widget'  => '</div>',
-    'before_title'  => '<h2 class="widget-title">',
-    'after_title'   => '</h2>',
+    'before_title'  => '<h2 class="widget-title"><span>',
+    'after_title'   => '</span></h2>',
   ));
 }
 add_action('widgets_init', 'motta_widgets_init');
@@ -176,6 +176,8 @@ add_action('admin_menu', 'remove_post_fields');
 
 // Block filler
 require get_template_directory() . '/inc/block-filler.php';
+
+require get_template_directory() . '/inc/custom-block-filler.php';
 
 // Query vars
 function add_custom_query_var($vars)

@@ -69,11 +69,12 @@ function remove_book_fields()
 }
 add_action('admin_menu', 'remove_book_fields');
 
-function remove_book_featured_image()
+function remove_book_side_fields()
 {
     remove_meta_box('postimagediv', 'book', 'side');
+    remove_meta_box('tagsdiv-post_tag', 'book', 'side');
 }
-add_action('do_meta_boxes', 'remove_book_featured_image');
+add_action('do_meta_boxes', 'remove_book_side_fields');
 
 // Register Custom Post Type
 function sticky_post_type()
@@ -147,11 +148,12 @@ function remove_sticky_fields()
 }
 add_action('admin_menu', 'remove_sticky_fields');
 
-function remove_sticky_featured_image()
+function remove_sticky_side_fields()
 {
     remove_meta_box('postimagediv', 'sticky', 'side');
+    remove_meta_box('tagsdiv-post_tag', 'sticky', 'side');
 }
-add_action('do_meta_boxes', 'remove_sticky_featured_image');
+add_action('do_meta_boxes', 'remove_sticky_side_fields');
 
 
 // Register Custom Post Type
@@ -223,8 +225,9 @@ function remove_topic_fields()
 }
 add_action('admin_menu', 'remove_topic_fields');
 
-function remove_topic_featured_image()
+function remove_topic_side_fields()
 {
     remove_meta_box('postimagediv', 'topic', 'side');
+    remove_meta_box('tagsdiv-post_tag', 'topic', 'side');
 }
-add_action('do_meta_boxes', 'remove_topic_featured_image');
+add_action('do_meta_boxes', 'remove_topic_side_fields');

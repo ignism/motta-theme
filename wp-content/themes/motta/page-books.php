@@ -12,20 +12,28 @@ get_header(); ?>
 <div id="primary" class="content-area">
   <main id="main" class="site-main" role="main">
     <div class="container-fluid">
+      <!--  Skeleton -->
+      <div class="row">
+        <div class="col-sm-10 col-sm-offset-1">
 
-      <?php
-      if (have_posts()) :
-        $lastposts = get_posts(array(
-          'post_type' => ['book'],
-          'posts_per_page' => 10
-        ));
+          <div class="container-fluid"><!--  center-body -->
 
-        fill_blocks($lastposts);
-      else :
+            <?php
+            if (have_posts()) {
+                $lastposts = get_posts(array(
+                'post_type' => ['book'],
+                'posts_per_page' => 10
+              ));
 
-        get_template_part('template-parts/content', 'none');
+                fill_blocks($lastposts);
+            }
+            ?>
 
-      endif; ?>
+          </div><!--  center-body -->
+
+        </div>
+      </div>
+      <!-- Skeleton -->
     </div><!-- .container -->
   </main><!-- #main -->
 </div><!-- #primary -->

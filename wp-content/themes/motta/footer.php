@@ -27,6 +27,17 @@
 					</div>
 					<?php dynamic_sidebar('footer'); ?>
 				</div>
+        <div class="row">
+					<div class="col-xs-3 col-xs-offset-1">
+						<a class="colophon--small">overige winkels</a>
+					</div>
+          <div class="col-xs-3">
+						<a class="colophon--small">disclaimer</a>
+					</div>
+          <div class="col-xs-3">
+						<a class="colophon--small">voorwaarden</a>
+					</div>
+				</div>
 			</div>
 		</div><!-- .site-info -->
 	</footer><!-- #colophon -->
