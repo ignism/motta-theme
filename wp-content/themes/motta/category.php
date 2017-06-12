@@ -27,6 +27,7 @@ get_header(); ?>
             <?php
             $curr_category = get_category(get_query_var('cat'));
             $category_id = $curr_category->term_id;
+            $category_name = $curr_category->name;
             $parent = $curr_category->category_parent;
 
             if ($parent) {
@@ -35,13 +36,16 @@ get_header(); ?>
 
                 switch ($slug) {
                 case 'books':
+
+                echo '<h2>' . $category_name . ' ' . $parent->name . '</h2>';
+
                 $query = get_posts(array(
                   'post_type' => ['book'],
                   'posts_per_page' => 10,
                   'cat' => $category_id
                 ));
 
-                fill_blocks($query);
+                fill_blocks_with_category($query, $category_name);
                 break;
                 default:
                 // silent

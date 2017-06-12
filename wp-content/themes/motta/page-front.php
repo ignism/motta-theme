@@ -13,6 +13,39 @@ $page_id = get_the_ID();
 setup_postdata($page_id);
 ?>
 
+<?php
+// function fetchData($url)
+// {
+//     $ch = curl_init();
+//     curl_setopt($ch, CURLOPT_URL, $url);
+//     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+//     curl_setopt($ch, CURLOPT_TIMEOUT, 20);
+//     $result = curl_exec($ch);
+//     curl_close($ch);
+//     return $result;
+// }
+// $access_token = get_field('instagram', 16);
+// $user = explode('.', $access_token)[0];
+// $url = 'https://api.instagram.com/v1/users/' . $user . '/media/recent/?access_token=' . $access_token;
+//
+// $result = fetchData($url);
+// $result = json_decode($result);
+//
+// $instagram_post = array();
+// foreach ($result->data as $post) {
+//
+//     $instagram_post['username'] = $post->user->username;
+//     $instagram_post['image_url'] = $post->images->standard_resolution->url;
+//     $instagram_post['tags'] = $post->tags;
+//     $instagram_post['date'] = date('j M Y', $post->created_time);
+//     $instagram_post['url'] = $post->link;
+//     $instagram_post['likes'] = $post->likes;
+//
+//     break;
+// }
+
+?>
+
 <div id="primary" class="content-area">
   <main id="main" class="site-main" role="main">
     <div class="container-fluid">
@@ -27,49 +60,70 @@ setup_postdata($page_id);
               <?php
               $html = '';
               if ($header_block = get_field('header_block', $page_id)) {
+                $permalink = get_the_permalink($header_block->ID);
+                $title_left = get_the_title($header_block->ID);
+                $size_left = get_field('header_block_size',  $page_id);
+
+                $size_class = '';
+                switch($size_left) {
+                  case 'sm':
+                    $size_class = ' col-sm-4';
+                  break;
+                  case 'lg':
+                    $size_class = ' col-sm-8';
+                  break;
+                  default:
+                    $size_class = ' col-sm-6';
+                  break;
+                }
+
+                if ($header_block->post_type == 'sticky') {
+                  $html .= '<div class="frontpage__block col-xs-6' . $size_class . '">';
+                  $html .= generate_frontpage_block($header_block, 0);
+                  $html .= '</div>';
+                } else {
                   if ($header_image = get_field('header_image', $header_block->ID)) {
-                      $html .= '<div class="col-sm-8">';
+                    $html .= '<div class="col-xs-6' . $size_class . '">';
+                    $html .= '<a href="' . $permalink . '">';
+                    $html .= '<img src="' . $header_image['sizes']['large'] . '">';
+                    $html .= '<div class="block__title">' . $title_left . '</div>';
+                    $html .= '</a>';
+                    $html .= '</div>';
+                  }
+                }
+
+                if ($header_block_right = get_field('header_block_right', $page_id)) {
+                  $permalink_right = get_the_permalink($header_block_right->ID);
+                  $title_right = get_the_title($header_block_right->ID);
+                  $size_right = get_field('header_block_right_size',  $page_id);
+                  $size_class = '';
+                  switch($size_right) {
+                    case 'sm':
+                      $size_class = ' col-sm-4';
+                    break;
+                    case 'lg':
+                      $size_class = ' col-sm-8';
+                    break;
+                    default:
+                      $size_class = ' col-sm-6';
+                    break;
+                  }
+
+                  if ($header_block_right->post_type == 'sticky') {
+                    $html .= '<div class="frontpage__block col-xs-6' . $size_class . '">';
+                    $html .= generate_frontpage_block($header_block_right, 0);
+                    $html .= '</div>';
+                  } else {
+                    if ($header_image = get_field('header_image', $header_block_right->ID)) {
+                      $html .= '<div class="col-xs-6' . $size_class . '">';
+                      $html .= '<a href="' . $permalink_right . '">';
                       $html .= '<img src="' . $header_image['sizes']['large'] . '">';
+                      $html .= '<div class="block__title">' . $title_right. '</div>';
+                      $html .= '</a>';
                       $html .= '</div>';
+                    }
                   }
-
-                  if ($category = get_the_category($header_block->ID)) {
-                      $category_ids = array();
-
-                      foreach ($category as $curr_category) {
-                          array_push($category_ids, $curr_category->term_id);
-                      }
-
-                      $related_post = get_posts(array(
-                    'post_type' => ['book'],
-                    'posts_per_page' => 1,
-                    'category_in' => $category_ids
-                  ))[0];
-
-                      $category = get_the_category($related_post->ID);
-                      $tag = '';
-                      foreach ($category as $curr_category) {
-                          if ($curr_category->name != 'Uncategorized') {
-                              $tag .= $curr_category->name;
-                              $tag .= ' ';
-                          }
-                      }
-                      $title = get_the_title($related_post->ID);
-
-                      $html .= '<div class="hidden-xs col-sm-4">';
-
-                      if ($related_image = get_field('image', $related_post->ID)) {
-                          $html .= '<img src="' . $related_image['sizes']['medium'] . '">';
-                      } else {
-                          $related_image = get_field('header_image', $related_post->ID);
-                          $html .= '<img src="' . $related_image['sizes']['medium'] . '">';
-                      }
-                      if ($tag != '') {
-                          $html .= '<div class="block__tag">' . $tag . '</div>';
-                      }
-                      $html .= '<div class="block__title">' . $title . '</div>';
-                      $html .= '</div>';
-                  }
+                }
               }
               echo $html;
               ?>
@@ -91,13 +145,13 @@ setup_postdata($page_id);
 
             <?php
             if ($page_block_posts = get_field('page_block_posts')) {
-                $posts = array();
-                foreach ($page_block_posts as $block) {
-                    $curr_post = $block['block'];
-                    array_push($posts, $curr_post);
-                }
+              $posts = array();
+              foreach ($page_block_posts as $block) {
+                $curr_post = $block['block'];
+                array_push($posts, $curr_post);
+              }
 
-                fill_blocks($posts);
+              fill_blocks($posts);
             }
             ?>
 

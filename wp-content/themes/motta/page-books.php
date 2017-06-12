@@ -20,12 +20,11 @@ get_header(); ?>
 
             <?php
             if (have_posts()) {
-                $lastposts = get_posts(array(
+              $lastposts = get_posts(array(
                 'post_type' => ['book'],
-                'posts_per_page' => 10
+                'posts_per_page' => 1000
               ));
-
-                fill_blocks($lastposts);
+              fill_blocks($lastposts);
             }
             ?>
 

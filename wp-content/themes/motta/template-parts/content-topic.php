@@ -16,7 +16,7 @@
         <div class="col-xs-12">
           <?php
           if ($header_image = get_field('header_image')) {
-              echo '<img src="' . $header_image['sizes']['large'] . '">';
+            echo '<img src="' . $header_image['sizes']['large'] . '">';
           }
           ?>
         </div>
@@ -28,12 +28,12 @@
             $tag = get_post_type() . ' ';
             $categories = get_the_category();
             if ($categories) {
-                foreach ($categories as $category) {
-                    $name = $category->name;
-                    if ($name != 'Uncategorized') {
-                        $tag .= $category->name . ' ';
-                    }
+              foreach ($categories as $category) {
+                $name = $category->name;
+                if ($name != 'Uncategorized') {
+                  $tag .= $category->name . ' ';
                 }
+              }
             }
             echo $tag;
             ?>
@@ -48,14 +48,14 @@
     <div class="entry-content">
       <?php
       if ($details = get_field('content_details')) {
-          $html = '';
-          $html .= '<div class="row">';
-          $html .= '<div class="col-sm-10 col-sm-offset-1 entry-details">';
-          $html .= $details;
-          $html .= '</div>';
-          $html .= '</div>';
+        $html = '';
+        $html .= '<div class="row">';
+        $html .= '<div class="col-sm-10 col-sm-offset-1 entry-details">';
+        $html .= $details;
+        $html .= '</div>';
+        $html .= '</div>';
 
-          echo $html;
+        echo $html;
       }
       ?>
       <div class="row">
@@ -68,57 +68,93 @@
 
       <?php
       if ($action = get_field('content_action_button_type')) {
+        if ($action != 'none') {
           $html = '';
           $html .= '<div class="row">';
           $html .= '<div class="col-sm-10 col-sm-offset-1">';
           $html .= '<span class="entry-action">';
 
           switch ($action) {
-          case 'url':
-          $html .= get_field('content_action_button_url');
-          break;
-          case 'post':
-          $html .= get_field('content_action_button_post');
-          default:
-          $text = get_field('content_action_button_text');
-          $html .= $text;
-          break;
-        }
+            case 'url':
+            $_url = get_field('content_action_button_url');
+            $html .= '<a target="_blank" href="' . $_url . '">' . $_url . '</a>';
+            break;
+            case 'post':
+            $_post = get_field('content_action_button_post');
+            $_title = get_the_title($_post->ID);
+            $_url = get_the_permalink($_post->ID);
+            $html .= '<a href="' . $_url . '">' . $_title . '</a>';
+            break;
+            default:
+            $text = get_field('content_action_button_text');
+            $html .= $text;
+            break;
+          }
 
           $html .= '</span>';
           $html .= '</div>';
           $html .= '</div>';
-
-          echo $html;
-      }
-      ?>
-      <div class="row">
-
-        <?php
-        if ($custom_blocks = get_field('custom_blocks')) {
-            fill_custom_blocks($custom_blocks);
         }
 
-        ?>
-      </div>
+        echo $html;
+      }
+
+      if ($custom_blocks = get_field('custom_blocks')) {
+        fill_custom_blocks($custom_blocks);
+      }
+
+      ?>
+
     </div><!-- .entry-content -->
 
     <footer class="entry-footer">
-      ontdek meer
+
 
       <?php
+      // custom fill selected blocks
+
+      if ($related_book_posts = get_field('related_book_posts')) {
+        if ($related_book_posts) {
+          echo '<div class="text-center"><h2>Related books</h2></div>';
+          fill_blocks($related_book_posts);
+        }
+      }
+
+      ?>
+
+
+      <?php
+      //random fill by category
+
       $curr_category = get_the_category();
+      $query = '';
 
       if ($curr_category) {
+        $category_ids = array();
+
+        foreach ($curr_category as $category) {
+          array_push($category_ids, $category->term_id);
+        }
+        $query = get_posts(array(
+          'post_type' => ['book'],
+          'post__not_in' => [get_the_ID()],
+          'posts_per_page' => 5,
+          'orderby' => 'rand',
+          'category__in' => $category_ids
+        ));
       } else {
-          $query = get_posts(array(
+        $query = get_posts(array(
           'post__not_in' => [get_the_ID()],
           'post_type' => ['topic'],
           'posts_per_page' => 5,
           'cat' => $category_id
         ));
-          fill_blocks($query);
       }
+      if ($query) {
+        echo '<div class="text-center"><h2>Discover more ' . $curr_category[0]->name . '</h2></div>';
+        fill_blocks($query);
+      }
+
       ?>
     </footer><!-- .entry-footer -->
   </div>

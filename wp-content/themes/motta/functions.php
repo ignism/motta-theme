@@ -148,6 +148,24 @@ require get_template_directory() . '/inc/jetpack.php';
 
 /*----------------------------------------------------------------------------*/
 
+// Remove standard post
+function remove_post_menu(){
+
+
+  remove_menu_page( 'edit.php' );                   //Posts
+  // remove_menu_page( 'upload.php' );                 //Media
+  // remove_menu_page( 'edit.php?post_type=page' );    //Pages
+  remove_menu_page( 'edit-comments.php' );          //Comments
+  // remove_menu_page( 'themes.php' );                 //Appearance
+  // remove_menu_page( 'plugins.php' );                //Plugins
+  // remove_menu_page( 'users.php' );                  //Users
+  // remove_menu_page( 'tools.php' );                  //Tools
+  // remove_menu_page( 'options-general.php' );        //Settings
+
+}
+add_action( 'admin_menu', 'remove_post_menu' );
+
+
 // Custom Post types
 require get_template_directory() . '/inc/post-types.php';
 
@@ -162,6 +180,20 @@ function remove_page_fields()
     remove_meta_box('postexcerpt', 'page', 'normal');
 }
 add_action('admin_menu', 'remove_page_fields');
+
+function hide_editor() {
+  // Get the Post ID.
+  $post_id = $_GET['post'] ? $_GET['post'] : $_POST['post_ID'] ;
+  if( !isset( $post_id ) ) return;
+
+  // Hide the editor on a page with a specific page template
+  // Get the name of the Page Template file.
+  $template_file = get_post_meta($post_id, '_wp_page_template', true);
+  if($template_file == 'page-about.php'){ // the filename of the page template
+    remove_post_type_support('page', 'editor');
+  }
+}
+add_action( 'admin_init', 'hide_editor' );
 
 function remove_post_fields()
 {
@@ -179,6 +211,8 @@ require get_template_directory() . '/inc/block-filler.php';
 
 require get_template_directory() . '/inc/custom-block-filler.php';
 
+require get_template_directory() . '/inc/frontpage-block.php';
+
 // Query vars
 function add_custom_query_var($vars)
 {
@@ -193,4 +227,11 @@ function log_to_page($item)
     echo '<pre>';
     var_dump($item);
     echo '</pre>';
+}
+
+function create_slug($string) {
+  $string = strtolower($string);
+  $slug = preg_replace("/[^a-z]+/", "", $string);
+
+  return $slug;
 }

@@ -1,12 +1,13 @@
 <?php
 $remaining_blocks;
+$delay = 0;
 
 function fill_custom_blocks($blocks)
 {
-    $GLOBALS[$remaining_blocks] = $blocks;
+    $GLOBALS['remaining_posts'] = $blocks;
 
     echo '<div class="row">';
-    while ($GLOBALS[$remaining_blocks]) {
+    while ($GLOBALS['remaining_posts']) {
         create_custom_row();
     }
     close_custom_row();
@@ -16,28 +17,30 @@ function create_custom_row()
 {
     $curr_space_left = 12;
 
-    while ($curr_space_left > 2 && $GLOBALS[$remaining_blocks]) {
+    while ($curr_space_left > 1 && $GLOBALS['remaining_posts']) {
         $curr_space_left = get_first_custom_fit($curr_space_left);
     }
 }
 
 function get_first_custom_fit($space_left)
 {
-    foreach ($GLOBALS[$remaining_blocks] as $block_key => $block) {
+    $delay = $GLOBALS['delay'];
+
+    foreach ($GLOBALS['remaining_posts'] as $block_key => $block) {
         $curr_size = 0;
 
         if ($str_size = $block['custom_block_size']) {
             switch ($str_size) {
                 case 'xs':
-                $curr_size = 3;
+                $curr_size = 2;
                 break;
 
                 case 'sm':
-                $curr_size = 4;
+                $curr_size = 3;
                 break;
 
                 case 'md':
-                $curr_size = 5;
+                $curr_size = 4;
                 break;
 
                 case 'lg':
@@ -57,11 +60,16 @@ function get_first_custom_fit($space_left)
 
         if ($curr_size === 0) {
             // not a valid block type
-            unset($GLOBALS[$remaining_blocks][$block_key]);
+            unset($GLOBALS['remaining_posts'][$block_key]);
         } elseif ($curr_size <= $space_left) {
             // found a candidate
-            unset($GLOBALS[$remaining_blocks][$block_key]);
-            generate_custom_block($block);
+            unset($GLOBALS['remaining_posts'][$block_key]);
+            generate_custom_block($block, $delay * 200);
+            $delay = $delay + 1;
+            if ($delay > 3) {
+                $delay = 0;
+            }
+            $GLOBALS['delay'] = $delay;
             return $space_left - $curr_size;
         } else {
             // leave it, but doesnt fit now
@@ -71,32 +79,33 @@ function get_first_custom_fit($space_left)
     return 0;
 }
 
-function generate_custom_block($block)
+function generate_custom_block($block, $delay)
 {
     $size = $block['custom_block_size'];
     $offset = $block['custom_block_offset'];
     $curr_offset = $offset ? 'col-md-offset-1' : '';
+    $aos = 'data-aos="fade-up" data-aos-delay="' . $delay . '"';
     $html = '';
 
     switch ($size) {
         case 'xs':
-        $html .= '<div class="block col-sm-5 col-md-3 '. $curr_offset .'">';
+        $html .= '<div ' . $aos . ' class="block col-sm-5 col-md-2 '. $curr_offset .'">';
         break;
 
         case 'sm':
-        $html .= '<div class="block col-sm-5 col-md-4 '. $curr_offset .'">';
+        $html .= '<div ' . $aos . ' class="block col-sm-5 col-md-3 '. $curr_offset .'">';
         break;
 
         case 'md':
-        $html .= '<div class="block col-sm-7 col-md-5 '. $curr_offset .'">';
+        $html .= '<div ' . $aos . ' class="block col-sm-7 col-md-4 '. $curr_offset .'">';
         break;
 
         case 'lg':
-        $html .= '<div class="block col-sm-7 col-md-8 '. $curr_offset .'">';
+        $html .= '<div ' . $aos . ' class="block col-sm-7 col-md-8 '. $curr_offset .'">';
         break;
 
         default:
-        $html .= '<div class="block col-sm-10 col-sm-offset-1">';
+        $html .= '<div ' . $aos . ' class="block col-sm-10 col-sm-offset-1">';
         break;
     }
 
