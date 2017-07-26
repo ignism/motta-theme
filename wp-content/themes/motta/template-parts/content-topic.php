@@ -9,11 +9,17 @@
 
 ?>
 
+<?php
+  $aos_type = 'fade-right';
+  $aos_delay = '0';
+  $aos = 'data-aos="'. $aos_type . '" data-aos-delay="' . $aos_delay . '"';
+ ?>
+
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
   <div class="container-fluid">
     <header class="entry-header">
       <div class="row">
-        <div class="col-xs-12">
+        <div <?php echo $aos ?> class="col-xs-12">
           <?php
           if ($header_image = get_field('header_image')) {
             echo '<img src="' . $header_image['sizes']['large'] . '">';
@@ -22,7 +28,12 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-sm-10 col-sm-offset-1">
+      <?php
+          $aos_type = 'fade-left';
+          $aos_delay = '0';
+          $aos = 'data-aos="'. $aos_type . '" data-aos-delay="' . $aos_delay . '"';
+         ?>
+        <div <?php echo $aos ?> class="col-sm-10 col-sm-offset-1">
           <span class="entry-tag">
             <?php
             $tag = get_post_type() . ' ';
@@ -45,12 +56,18 @@
       </div>
     </header><!-- .entry-header -->
 
+    <?php
+      $aos_type = 'fade-up';
+      $aos_delay = '200';
+      $aos = 'data-aos="'. $aos_type . '" data-aos-delay="' . $aos_delay . '"';
+     ?>
+
     <div class="entry-content">
       <?php
       if ($details = get_field('content_details')) {
         $html = '';
         $html .= '<div class="row">';
-        $html .= '<div class="col-sm-10 col-sm-offset-1 entry-details">';
+        $html .= '<div ' . $aos . ' class="col-sm-10 col-sm-offset-1 entry-details">';
         $html .= $details;
         $html .= '</div>';
         $html .= '</div>';
@@ -108,8 +125,6 @@
     </div><!-- .entry-content -->
 
     <footer class="entry-footer">
-
-
       <?php
       // custom fill selected blocks
 
@@ -119,6 +134,22 @@
           fill_blocks($related_book_posts);
         }
       }
+
+
+      // Obsolete
+      // if ($page_block_posts = get_field('page_block_posts')) {
+      //   $posts = array();
+      //   foreach ($page_block_posts as $block) {
+      //     $curr_post = $block['block'];
+      //     array_push($posts, $curr_post);
+      //   }
+      //
+      //
+      //   if ($posts) {
+      //     echo '<div class="text-center"><h2>Related books</h2></div>';
+      //     fill_blocks($posts);
+      //   }
+      // }
 
       ?>
 
@@ -138,7 +169,7 @@
         $query = get_posts(array(
           'post_type' => ['book'],
           'post__not_in' => [get_the_ID()],
-          'posts_per_page' => 5,
+          'posts_per_page' => 10,
           'orderby' => 'rand',
           'category__in' => $category_ids
         ));
@@ -146,7 +177,7 @@
         $query = get_posts(array(
           'post__not_in' => [get_the_ID()],
           'post_type' => ['topic'],
-          'posts_per_page' => 5,
+          'posts_per_page' => 10,
           'cat' => $category_id
         ));
       }

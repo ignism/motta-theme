@@ -7,30 +7,16 @@
 * @package Motta
 */
 
-get_header(); ?>
 
-<div id="primary" class="content-area">
-  <main id="main" class="site-main" role="main">
-    <div class="container-fluid">
+while (have_posts()) {
+  the_post();
 
-      <!--  Skeleton -->
-      <div class="row">
-        <div class="col-sm-10 col-sm-offset-1">
+  $linked_book_merchandise = get_field('linked_book_merchandise');
 
-              <?php
-              while (have_posts()) {
-                  the_post();
-                  get_template_part('template-parts/content', get_post_type());
-              }
-              ?>
+  $url = get_the_permalink($linked_book_merchandise[0]->ID);
 
-        </div>
-      </div>
+  header("Location: " . $url);
+  die();
 
-    </div>
-  </main><!-- #main -->
-</div><!-- #primary -->
-
-<?php
-get_sidebar();
-get_footer();
+}
+?>

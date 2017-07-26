@@ -144,7 +144,7 @@
         $query = get_posts(array(
           'post_type' => ['product'],
           'post__not_in' => [get_the_ID()],
-          'posts_per_page' => 5,
+          'posts_per_page' => 10,
           'orderby' => 'rand',
           'category__in' => $category_ids
         ));
@@ -152,7 +152,7 @@
         $query = get_posts(array(
           'post__not_in' => [get_the_ID()],
           'post_type' => ['topic'],
-          'posts_per_page' => 5,
+          'posts_per_page' => 10,
           'cat' => $category_id
         ));
       }

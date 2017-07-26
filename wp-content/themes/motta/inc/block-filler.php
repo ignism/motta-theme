@@ -107,11 +107,22 @@ function generate_block($post, $delay)
     $post_id = $post->ID;
     $post_type = $post->post_type;
 
+    $type = get_field('type', $post_id);
+    if ($post_type == 'social_post') {
+        $type = 'instagram';
+    }
+
+    $aos_type = 'fade-up';
+    if ($type == 'colored_text') {
+      $aos_type = 'flip-right';
+    }
+
     $size = get_field('size', $post_id);
     $offset = get_field('offset', $post_id);
     $curr_offset = $offset ? 'col-md-offset-1' : '';
-    $aos = 'data-aos="fade-up" data-aos-delay="' . $delay . '"';
+    $aos = 'data-aos="'. $aos_type . '" data-aos-delay="' . $delay . '"';
     $html = '';
+
 
     if ($post_type == 'social_post') {
         $size = 'sm';
@@ -138,12 +149,6 @@ function generate_block($post, $delay)
         $html .= '<div ' . $aos . ' class="block col-xs-10 col-xs-offset-1">';
         break;
     }
-
-    $type = get_field('type', $post_id);
-    if ($post_type == 'social_post') {
-        $type = 'instagram';
-    }
-
 
     switch ($type) {
         case 'image':
@@ -238,7 +243,7 @@ function get_image_text_block($post_id)
         $block .= '</div>';
     }
     if ($action = get_field('action_button', $post_id)) {
-        $block .= '<div class="block__action"><a>' . $action . '</a></div>';
+        $block .= '<div class="block__action"><a href="' . $permalink . '">' . $action . '</a></div>';
     }
 
     $block .= '</div>';

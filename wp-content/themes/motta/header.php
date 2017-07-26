@@ -40,8 +40,14 @@
             <div class="col-xs-2 col-sm-1">
               <a class="menu-toggle burger"><span class="burger-icon"></span></a>
             </div>
-            <div class="col-xs-8 col-sm-10 text-center site-branding">
+            <div class="col-xs-7 col-sm-10 text-center site-branding">
               <h2 class="site-title"><a href="<?php echo esc_url(home_url('/')); ?>" rel="home"><?php bloginfo('name'); ?></a></h2>
+            </div>
+            <div class="col-xs-2 col-sm-1">
+              <a class="menu-cart" href="<?php echo site_url(); ?>/cart"><span class="shopping-cart">
+                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                <span class="count"><?php echo  WC()->cart->get_cart_contents_count(); ?></span>
+              </span></a>
             </div>
           </div>
           <div class="row">

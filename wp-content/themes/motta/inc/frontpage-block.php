@@ -4,21 +4,22 @@ function generate_frontpage_block($post, $delay)
     $post_id = $post->ID;
     $post_type = $post->post_type;
 
+    $type = get_field('type', $post_id);
+
+    $aos_type = 'fade-up';
+    if ($type == 'colored_text') {
+      $aos_type = 'flip-right';
+    }
+
     $offset = get_field('offset', $post_id);
     $curr_offset = $offset ? 'col-md-offset-1' : '';
-    $aos = 'data-aos="fade-up" data-aos-delay="' . $delay . '"';
+    $aos = 'data-aos="' . $aos_type . '" data-aos-delay="' . $delay . '"';
     $html = '';
 
     if ($post_type == 'social_post') {
         $size = 'sm';
-    }
-
-
-    $type = get_field('type', $post_id);
-    if ($post_type == 'social_post') {
         $type = 'instagram';
     }
-
 
     switch ($type) {
         case 'image':

@@ -40,46 +40,74 @@ setup_postdata($page_id);
 
                   $slug = create_slug($location_name); ?>
                 <div  id="<?php echo $slug ?>" class="row entry-content">
-                  <div class="col-xs-12">
+                <?php
+  $aos_type = 'fade-right';
+  $aos_delay = '0';
+  $aos = 'data-aos="'. $aos_type . '" data-aos-delay="' . $aos_delay . '"';
+ ?>
+                  <div <?php echo $aos ?> class="col-xs-12">
                     <div class="lazy__image lazy" data-original="<?php echo $header_image['sizes']['large'] ?>">
                       <img src="<?php echo $header_image['sizes']['large']?>" style="visibility: hidden">
                     </div>
                   </div>
                 </div>
+
+                <?php
+          $aos_type = 'fade-left';
+          $aos_delay = '0';
+          $aos = 'data-aos="'. $aos_type . '" data-aos-delay="' . $aos_delay . '"';
+         ?>
                 <div class="row">
-                  <div class="col-sm-10 col-sm-offset-1">
+                  <div <?php echo $aos ?> class="col-sm-10 col-sm-offset-1">
                     <h1 class="entry-title"><?php echo $location_name ?></h1>
                   </div>
                 </div>
+
+
+    <?php
+      $aos_type = 'fade-up';
+      $aos_delay = '200';
+      $aos = 'data-aos="'. $aos_type . '" data-aos-delay="' . $aos_delay . '"';
+     ?>
                 <div class="row entry-content">
-                  <div class="col-sm-10 col-sm-offset-1">
+                  <div <?php echo $aos ?> class="col-sm-10 col-sm-offset-1">
                     <?php echo $content ?>
                     <div class="block__action">
                       <a href="mailto://<?php echo $email_button?>"><?php echo $email_button ?></a>
                     </div>
                   </div>
                 </div>
+                  <?php
+      $aos_type = 'fade-right';
+      $aos_delay = '200';
+      $aos = 'data-aos="'. $aos_type . '" data-aos-delay="' . $aos_delay . '"';
+     ?>
                 <div class="row entry-content">
-                  <div class="col-xs-4 entry-details block__text">
+                  <div <?php echo $aos ?> class="col-xs-4 entry-details block__text">
                     <?php echo $information ?>
                   </div>
                   <?php
                   if (have_rows('about_pictures')) {
                       while (have_rows('about_pictures')) {
                           the_row();
+                          $aos_type = 'fade-up';
+      $aos_delay = 200 * random_int( 0, 4 );
+      $aos = 'data-aos="'. $aos_type . '" data-aos-delay="' . $aos_delay . '"';
+
+
                           $picture = get_sub_field('about_picture');
                           $size = get_sub_field('about_picture_size');
                           $html = '';
 
                           switch ($size) {
                         case 'sm':
-                        $html .= '<div class="col-xs-3">';
+                        $html .= '<div ' . $aos . ' class="col-xs-3">';
                         break;
                         case 'lg':
-                        $html .= '<div class="col-xs-6">';
+                        $html .= '<div ' . $aos . ' class="col-xs-6">';
                         break;
                         default:
-                        $html .= '<div class="col-xs-4">';
+                        $html .= '<div ' . $aos . ' class="col-xs-4">';
                         break;
                       }
                       //log_to_page($picture[sizes]);

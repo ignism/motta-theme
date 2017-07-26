@@ -9,11 +9,17 @@
 
 ?>
 
+<?php
+  $aos_type = 'fade-right';
+  $aos_delay = '0';
+  $aos = 'data-aos="'. $aos_type . '" data-aos-delay="' . $aos_delay . '"';
+ ?>
+
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
   <div class="container-fluid">
     <header class="entry-header">
       <div class="row">
-        <div class="col-xs-12">
+        <div <?php echo $aos ?> class="col-xs-12">
           <?php
           if ($header_image = get_field('header_image')) {
             echo '<img src="' . $header_image['sizes']['large'] . '">';
@@ -22,7 +28,13 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-sm-10 col-sm-offset-1">
+        <?php
+          $aos_type = 'fade-left';
+          $aos_delay = '0';
+          $aos = 'data-aos="'. $aos_type . '" data-aos-delay="' . $aos_delay . '"';
+         ?>
+
+        <div  <?php echo $aos ?>  class="col-sm-10 col-sm-offset-1">
           <span class="entry-tag">
             <?php
             $tag = get_post_type() . ' ';
@@ -45,20 +57,62 @@
       </div>
     </header><!-- .entry-header -->
 
+    <?php
+      $aos_type = 'fade-up';
+      $aos_delay = '200';
+      $aos = 'data-aos="'. $aos_type . '" data-aos-delay="' . $aos_delay . '"';
+     ?>
+
+
     <div class="entry-content">
       <?php
       if ($details = get_field('content_details')) {
         $html = '';
         $html .= '<div class="row">';
-        $html .= '<div class="col-sm-10 col-sm-offset-1 entry-details">';
+        $html .= '<div ' . $aos . ' class="col-sm-10 col-sm-offset-1 entry-details">';
         $html .= $details;
         $html .= '</div>';
         $html .= '</div>';
 
         echo $html;
       }
+
+        $aos_type = 'fade-up';
+        $aos_delay = '400';
+        $aos = 'data-aos="'. $aos_type . '" data-aos-delay="' . $aos_delay . '"';
+
+
+      if ($product_id = get_field('store_product')) {
+
+        $currency = get_woocommerce_currency_symbol();
+        $price = get_post_meta($product_id, '_regular_price', true);
+        $stock_status = get_post_meta($product_id, '_stock_status', true);
+
+
+
+        $html = '';
+        $html .= '<div class="row">';
+        $html .= '<div ' . $aos . ' class="col-sm-10 col-sm-offset-1 entry-store-product">';
+        $html .= '<span class="price">' . $currency . $price . '</span>';
+
+        if ($stock_status == 'instock') {
+          $html .= '<a href="'.site_url().'/?add-to-cart='.$product_id.'" rel="nofollow" data-product_id="'.$product_id.'" data-product_sku=""><span class="order"> <i class="fa fa-shopping-cart" aria-hidden="true"></i></span></a>';
+        } else {
+          $html .= ' - sold out';
+        }
+
+        $html .= '</div>';
+        $html .= '</div>';
+
+        echo $html;
+      }
+
+      $aos_type = 'fade-up';
+      $aos_delay = '800';
+      $aos = 'data-aos="'. $aos_type . '" data-aos-delay="' . $aos_delay . '"';
+
       ?>
-      <div class="row">
+      <div <?php echo $aos ?> class="row">
         <div class="col-sm-10 col-sm-offset-1">
           <?php
           the_content();

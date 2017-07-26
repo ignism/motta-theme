@@ -9,22 +9,19 @@
 
 get_header(); ?>
 
-<?php
-function fetchData($url)
-{
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 20);
-    $result = curl_exec($ch);
-    curl_close($ch);
-    return $result;
-}
+  <?php
+
 $access_token = get_field('instagram');
 $user = explode('.', $access_token)[0];
 $url = 'https://api.instagram.com/v1/users/' . $user . '/media/recent/?access_token=' . $access_token;
 
-$result = fetchData($url);
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+curl_setopt($ch, CURLOPT_TIMEOUT, 20);
+$result = curl_exec($ch);
+curl_close($ch);
+
 $result = json_decode($result);
 
 $instagram_posts = array();
@@ -51,7 +48,12 @@ if (have_posts()) {
     $key = get_field('instagram_shortcode', $shortcode->ID);
 
     $url = 'https://api.instagram.com/v1/media/shortcode/' . $key . '?access_token=' . $access_token;
-    $result = fetchData($url);
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 20);
+    $result = curl_exec($ch);
+    curl_close($ch);
     $result = json_decode($result);
 
     $post = $result->data;
@@ -86,59 +88,66 @@ if (have_posts()) {
 
 ?>
 
-<div id="primary" class="content-area">
-  <main id="main" class="site-main" role="main">
-    <div class="container-fluid">
-      <!--  Skeleton -->
-      <div class="row">
-        <div class="col-sm-10 col-sm-offset-1">
+    <div id="primary" class="content-area">
+      <main id="main" class="site-main" role="main">
+        <div class="container-fluid">
+          <!--  Skeleton -->
+          <div class="row">
+            <div class="col-sm-10 col-sm-offset-1">
 
-          <div class="container-fluid"><!--  center-body -->
-            <div class="row">
+              <div class="container-fluid">
+                <!--  center-body -->
+                <div class="row">
+                  <?php
+                  if ($instagram_posts) {
+                    foreach ($instagram_posts as $post) {
+                      $aos_type = 'fade-up';
+                      $aos_delay = 200 * random_int( 0, 4 );
+                      $aos = 'data-aos="'. $aos_type . '" data-aos-delay="' . $aos_delay . '"';
 
-            <?php
-            if ($instagram_posts) {
+                      $html = '';
 
-              foreach ($instagram_posts as $post) {
-                $html = '';
+                      $html .= '<div ' . $aos . ' class="col-xs-6 col-sm-4">';
+                      $html .= '<div class="block__instagram">';
 
-                $html .= '<div class="col-xs-6 col-sm-4">';
-                $html .= '<div class="block__instagram">';
+                      $html .= '<a href="' . $post['url'] . '">';
+                      $html .= '<div class="block__image lazy" data-original="' . $post['image_url'] . '">';
+                      $html .= '<img class="lazy" src="' . $post['image_url']  . '" style="visibility: hidden">';
+                      $html .= '</div></a>';
 
-                $html .= '<a href="' . $post['url'] . '">';
-                $html .= '<div class="block__image lazy" data-original="' . $post['image_url'] . '">';
-                $html .= '<img class="lazy" src="' . $post['image_url']  . '" style="visibility: hidden">';
-                $html .= '</div></a>';
+                      $html .= '<div class="block__tag">';
+                      $html .= 'social instagram';
+                      $html .= '</div>';
 
-                $html .= '<div class="block__tag">';
-                $html .= 'social instagram';
-                $html .= '</div>';
+                      $html .= '<div class="block__title">' . $post['date'] . '</div>';
 
-                $html .= '<div class="block__title">' . $post['date'] . '</div>';
+                      $html .= '<div class="block__text">';
+                      foreach ($post['tags'] as $tag) {
+                        $html .= $tag . ' ';
+                      }
+                      $html .= '</div>';
 
-                $html .= '<div class="block__text">';
-                foreach ($post['tags'] as $tag) {
-                  $html .= $tag . ' ';
-                }
-                $html .= '</div>';
+                      $html .= '</div>';
+                      $html .= '</div>';
 
-                $html .= '</div>';
-                $html .= '</div>';
+                      echo $html;
+                    }
+                  }
+                  ?>
+                </div>
+              </div>
+              <!--  center-body -->
 
-                echo $html;
-              }
-            }
-            ?>
             </div>
-          </div><!--  center-body -->
-
+          </div>
+          <!-- Skeleton -->
         </div>
-      </div>
-      <!-- Skeleton -->
-    </div><!-- .container -->
-  </main><!-- #main -->
-</div><!-- #primary -->
+        <!-- .container -->
+      </main>
+      <!-- #main -->
+    </div>
+    <!-- #primary -->
 
-<?php
+    <?php
 
 get_footer();

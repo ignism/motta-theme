@@ -49,8 +49,8 @@
 </div><!-- #page -->
 
 <?php wp_footer(); ?>
-<script src="http://cdnjs.cloudflare.com/ajax/libs/aos/2.1.1/aos.js"></script>
-<script src="<?php echo get_template_directory_uri(); ?>/dist/commons.js" charset="utf-8"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/aos/2.1.1/aos.js"></script>
+<script src="<?php echo get_template_directory_uri(); ?>/dist/commons.js?v=1.1" charset="utf-8"></script>
 <script src="<?php echo get_template_directory_uri();  ?>/dist/app.bundle.js?v=1.1" charset="utf-8"></script>
 
 </body>

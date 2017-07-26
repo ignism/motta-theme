@@ -59,6 +59,7 @@ setup_postdata($page_id);
             <div class="row">
               <?php
               $html = '';
+
               if ($header_block = get_field('header_block', $page_id)) {
                 $permalink = get_the_permalink($header_block->ID);
                 $title_left = get_the_title($header_block->ID);
@@ -77,13 +78,17 @@ setup_postdata($page_id);
                   break;
                 }
 
+                $aos_type = 'fade-right';
+                $aos_delay = '200';
+                $aos = 'data-aos="'. $aos_type . '" data-aos-delay="' . $aos_delay . '"';
+
                 if ($header_block->post_type == 'sticky') {
-                  $html .= '<div class="frontpage__block col-xs-6' . $size_class . '">';
+                  $html .= '<div ' . $aos . ' class="frontpage__block col-xs-12' . $size_class . '">';
                   $html .= generate_frontpage_block($header_block, 0);
                   $html .= '</div>';
                 } else {
                   if ($header_image = get_field('header_image', $header_block->ID)) {
-                    $html .= '<div class="col-xs-6' . $size_class . '">';
+                    $html .= '<div ' . $aos . ' class="col-xs-12' . $size_class . '">';
                     $html .= '<a href="' . $permalink . '">';
                     $html .= '<img src="' . $header_image['sizes']['large'] . '">';
                     $html .= '<div class="block__title">' . $title_left . '</div>';
@@ -109,13 +114,17 @@ setup_postdata($page_id);
                     break;
                   }
 
+                  $aos_type = 'fade-left';
+                  $aos_delay = '400';
+                  $aos = 'data-aos="'. $aos_type . '" data-aos-delay="' . $aos_delay . '"';
+
                   if ($header_block_right->post_type == 'sticky') {
-                    $html .= '<div class="frontpage__block col-xs-6' . $size_class . '">';
+                    $html .= '<div ' . $aos . ' class="frontpage__block col-xs-12' . $size_class . '">';
                     $html .= generate_frontpage_block($header_block_right, 0);
                     $html .= '</div>';
                   } else {
                     if ($header_image = get_field('header_image', $header_block_right->ID)) {
-                      $html .= '<div class="col-xs-6' . $size_class . '">';
+                      $html .= '<div ' . $aos . ' class="col-xs-12' . $size_class . '">';
                       $html .= '<a href="' . $permalink_right . '">';
                       $html .= '<img src="' . $header_image['sizes']['large'] . '">';
                       $html .= '<div class="block__title">' . $title_right. '</div>';
@@ -129,8 +138,16 @@ setup_postdata($page_id);
               ?>
             </div>
 
+            <?php
+
+            $aos_type = 'fade-up';
+            $aos_delay = '600';
+            $aos = 'data-aos="'. $aos_type . '" data-aos-delay="' . $aos_delay . '"';
+
+            ?>
+
             <div class="row">
-              <div class="col-sm-10 col-sm-offset-1 block">
+              <div <?php echo $aos ?> class="col-sm-10 col-sm-offset-1 block">
                 <div class="front-content block--text">
                   <div class="block__text">
                     <?php

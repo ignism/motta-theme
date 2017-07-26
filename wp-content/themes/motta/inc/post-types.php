@@ -81,24 +81,24 @@ add_action('do_meta_boxes', 'remove_book_side_fields');
 function product_post_type()
 {
     $labels = array(
-        'name'                  => _x('Products', 'Post Type General Name', 'text_domain'),
-        'singular_name'         => _x('Product', 'Post Type Singular Name', 'text_domain'),
-        'menu_name'             => __('Products', 'text_domain'),
-        'name_admin_bar'        => __('Product', 'text_domain'),
+        'name'                  => _x('Merchandise', 'Post Type General Name', 'text_domain'),
+        'singular_name'         => _x('Merchandise', 'Post Type Singular Name', 'text_domain'),
+        'menu_name'             => __('Merchandise', 'text_domain'),
+        'name_admin_bar'        => __('Merchandise', 'text_domain'),
         'archives'              => __('Item Archives', 'text_domain'),
         'attributes'            => __('Item Attributes', 'text_domain'),
-        'parent_item_colon'     => __('Parent Product:', 'text_domain'),
-        'all_items'             => __('All Products', 'text_domain'),
-        'add_new_item'          => __('Add New Product', 'text_domain'),
-        'add_new'               => __('New Product', 'text_domain'),
+        'parent_item_colon'     => __('Parent Merchandise:', 'text_domain'),
+        'all_items'             => __('All Merchandise', 'text_domain'),
+        'add_new_item'          => __('Add New Merchandise', 'text_domain'),
+        'add_new'               => __('New Merchandise', 'text_domain'),
         'new_item'              => __('New Item', 'text_domain'),
-        'edit_item'             => __('Edit Product', 'text_domain'),
-        'update_item'           => __('Update Product', 'text_domain'),
-        'view_item'             => __('View Product', 'text_domain'),
+        'edit_item'             => __('Edit Merchandise', 'text_domain'),
+        'update_item'           => __('Update Merchandise', 'text_domain'),
+        'view_item'             => __('View Merchandise', 'text_domain'),
         'view_items'            => __('View Items', 'text_domain'),
-        'search_items'          => __('Search products', 'text_domain'),
-        'not_found'             => __('No products found', 'text_domain'),
-        'not_found_in_trash'    => __('No products found in Trash', 'text_domain'),
+        'search_items'          => __('Search merchandise', 'text_domain'),
+        'not_found'             => __('No merchandise found', 'text_domain'),
+        'not_found_in_trash'    => __('No merchandise found in Trash', 'text_domain'),
         'featured_image'        => __('Featured Image', 'text_domain'),
         'set_featured_image'    => __('Set featured image', 'text_domain'),
         'remove_featured_image' => __('Remove featured image', 'text_domain'),
@@ -110,8 +110,8 @@ function product_post_type()
         'filter_items_list'     => __('Filter items list', 'text_domain'),
     );
     $args = array(
-        'label'                 => __('Product', 'text_domain'),
-        'description'           => __('Product information pages.', 'text_domain'),
+        'label'                 => __('Merchandise', 'text_domain'),
+        'description'           => __('Merchandise information pages.', 'text_domain'),
         'labels'                => $labels,
         'supports'              => array( 'title', 'editor', 'excerpt', 'author', 'thumbnail', 'comments', 'custom-fields', ),
         'taxonomies'            => array( 'category', 'post_tag' ),
@@ -128,7 +128,7 @@ function product_post_type()
         'publicly_queryable'    => true,
         'capability_type'       => 'page',
     );
-    register_post_type('product', $args);
+    register_post_type('merchandise', $args);
 }
 add_action('init', 'product_post_type', 0);
 
@@ -137,19 +137,19 @@ add_action('init', 'product_post_type', 0);
  */
 function remove_product_fields()
 {
-    remove_meta_box('authordiv', 'product', 'normal');
-    remove_meta_box('commentstatusdiv', 'product', 'normal');
-    remove_meta_box('commentsdiv', 'product', 'normal');
-    remove_meta_box('postcustom', 'product', 'normal');
-    remove_meta_box('slugdiv', 'product', 'normal');
-    remove_meta_box('postexcerpt', 'product', 'normal');
+    remove_meta_box('authordiv', 'merchandise', 'normal');
+    remove_meta_box('commentstatusdiv', 'merchandise', 'normal');
+    remove_meta_box('commentsdiv', 'merchandise', 'normal');
+    remove_meta_box('postcustom', 'merchandise', 'normal');
+    remove_meta_box('slugdiv', 'merchandise', 'normal');
+    remove_meta_box('postexcerpt', 'merchandise', 'normal');
 }
 add_action('admin_menu', 'remove_product_fields');
 
 function remove_product_side_fields()
 {
-    remove_meta_box('postimagediv', 'product', 'side');
-    remove_meta_box('tagsdiv-post_tag', 'product', 'side');
+    remove_meta_box('postimagediv', 'merchandise', 'side');
+    remove_meta_box('tagsdiv-post_tag', 'merchandise', 'side');
 }
 add_action('do_meta_boxes', 'remove_product_side_fields');
 
@@ -386,3 +386,12 @@ function remove_topic_side_fields()
     remove_meta_box('tagsdiv-post_tag', 'topic', 'side');
 }
 add_action('do_meta_boxes', 'remove_topic_side_fields');
+
+/**
+ * Remove meta box fields WooCommerce Product
+ */
+function remove_woo_product_fields()
+{
+    remove_post_type_support( 'product', 'editor' );
+}
+add_action('init', 'remove_woo_product_fields');

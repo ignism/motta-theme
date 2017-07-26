@@ -235,3 +235,10 @@ function create_slug($string) {
 
   return $slug;
 }
+
+add_filter( 'woocommerce_cart_item_thumbnail', '__return_false' );
+
+add_action( 'after_setup_theme', 'woocommerce_support' );
+function woocommerce_support() {
+    add_theme_support( 'woocommerce' );
+}

@@ -16,7 +16,7 @@ get_header(); ?>
       <!--  Skeleton -->
       <div class="row">
         <div class="col-sm-10 col-sm-offset-1">
-
+              
               <?php
               while (have_posts()) {
                   the_post();
